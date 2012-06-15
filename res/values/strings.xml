@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Molo p2p demo</string>
+    <string name="app_name">P2Pdemo</string>
+    <string name="name">input your name</string>
+	<string name="password">input your password</string>
+	<string name="sumbit">Go</string>
+	<string name="p2p_title">try to p2p connection.</string>
+	<string name="remote">input remote user name</string>
+	<string name="chat">send data to remote user</string>
+	<string name="ok">OK</string>
+</resources>

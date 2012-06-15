@@ -1,0 +1,9 @@
+###########################################################   
+# test list
+include $(CLEAR_VARS)  
+LOCAL_PATH :=/Users/gongchen/Dev/Eclipse_workspace/P2Pdemo/jni
+
+LOCAL_MODULE := list_test
+LOCAL_CPP_EXTENSION := .cc
+LOCAL_SRC_FILES := list3.h
+include $(BUILD_SHARED_LIBRARY)
