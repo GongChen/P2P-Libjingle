@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  *@author kane (kanegong@molo.cn)
@@ -27,13 +26,12 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener
 {
     Receiver receiver;
-    private String name = ""; 
     
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.p2p);
-        name = getIntent().getStringExtra("name");
+        
         IntentFilter filter = new IntentFilter("p2p");
         receiver = new Receiver();
         this.registerReceiver(receiver, filter);
@@ -91,54 +89,30 @@ public class MainActivity extends Activity implements OnClickListener
         if (v.getId() == R.id.button1)
         {
             EditText text1 = (EditText) findViewById(R.id.editText1);
-            final String remote_name = text1.getText().toString();
-            if (remote_name != null && remote_name.length() > 0 && remote_name.indexOf("@") != -1)
+//            final String name = text1.getText().toString();
+            new Thread(new Runnable()
             {
-                new Thread(new Runnable()
+                public void run()
                 {
-                    public void run()
-                    {
-                        System.out.println("createP2P");
-                        NativeMethod.createChannel(MainActivity.this.getName(), remote_name);
-                    }
-                }).start();
-            }
-            else
-            {
-                Toast.makeText(MainActivity.this, "Please input right user's ID.", Toast.LENGTH_SHORT).show();
-            }
+                    System.out.println("createP2P");
+                    NativeMethod.createChannel("", "gc2@molohui.com");
+                }
+            }).start();
         }
         else if (v.getId() == R.id.button2)
         {
             EditText text2 = (EditText) findViewById(R.id.editText2);
             final String data = text2.getText().toString();
-            if (data != null && data.length() > 0)
+            new Thread(new Runnable()
             {
-                new Thread(new Runnable()
+                public void run()
                 {
-                    public void run()
-                    {
-                        System.out.println("sendData");
-                        NativeMethod.sendData("", data);
-                    }
-                }).start();
-            }
-            else
-            {
-                Toast.makeText(MainActivity.this, "Please input something to chat.", Toast.LENGTH_SHORT).show();
-            }
+                    System.out.println("sendData");
+                    NativeMethod.sendData("", data);
+                }
+            }).start();
         }
 
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
     };
     
 }

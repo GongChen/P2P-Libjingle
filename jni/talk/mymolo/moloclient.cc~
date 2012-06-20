@@ -84,9 +84,9 @@ enum {
 };
 
 void MoloClient::CreateP2P(const std::string& name, const std::string& line) {
-    LOG(LS_WARNING)<<"Create p2p to : "<< line;
+    LOG(LS_INFO)<< "Create p2p to : " << line;
     this->name = name;
-    this->setRemoteUser(line);
+    this->to = line;
 	worker_thread_->PostDelayed(500, this, MSG_CREATECHANNEL);
 }
                         
@@ -316,14 +316,13 @@ void MoloClient::OnReadPacket(cricket::TransportChannel* channel,
 void MoloClient::OnCandidate(cricket::TransportChannelImpl* ch,
 		const cricket::Candidate& c) {   
 	LOGD("MoloClient::OnCandidate");
-	LOG(LS_WARNING) <<"remote is :"<<this->getRemoteUser();
 	buzz::XmlElement* cand_elem = new buzz::XmlElement(QN_GINGLE_P2P_CANDIDATE);
 	WriteError error;
 	WriteCandidate(c, cand_elem, &error);
 	ready_candidates_.push_back(c);
 	buzz::XmlElement* stanza = new buzz::XmlElement(buzz::QN_MESSAGE);
-	if (this->getRemoteUser().length() > 0) {
-	  const std::string remoteUser = this->getRemoteUser();
+	if (this->to.length() > 0) {
+		const std::string remoteUser = this->to;
 		stanza->AddAttr(buzz::QN_TO, remoteUser);
 	} else {
 	  LOG(LS_INFO) << "error,get name failed!" << this->to;
@@ -360,33 +359,9 @@ void MoloClient::HandleChat(const buzz::XmlElement* elem) {
 	LOG(LS_INFO) << "HandleChat in MoloClient, chat is : " << chat;
 }
 
-void MoloClient::HandleCandidate(const buzz::XmlElement* stanza) {
-  //const buzz::XmlElement* elem = stanza->FirstNamed(QN_GINGLE_P2P_CANDIDATE);
-  //const buzz::XmlElement* chatElement = stanza->FirstNamed(buzz::QN_MESSAGE);
-  //const std::string& from = chatElement->Attr(buzz::QN_FROM);
-  //	LOG(LS_WARNING) << "MoloClient::HandleCandidate";
-  //	LOG(LS_WARNING) << "Stanza:"<<stanza->Str();
-  //	LOG(LS_WARNING) << "Candidate:"<<elem->Str();
-  //	LOG(LS_WARNING) << "from:"<<from;
-LOG(LS_WARNING) << "Stanza:"<<stanza->Str();
-	const buzz::XmlElement* elem = stanza->FirstNamed(QN_GINGLE_P2P_CANDIDATE);
-	const buzz::XmlElement* chatElement = stanza->FirstNamed(buzz::QN_MESSAGE);
-	if (elem) {
-		LOG(LS_WARNING) << "Candidate:" << elem->Str();
-	}
-	const std::string& from = stanza->Attr(buzz::QN_FROM);
-	LOG(LS_WARNING) << "from:" << from;
-	int pos = from.find("/");
-	const std::string& remoteuser = from.substr(0,pos);
-	LOG(LS_WARNING) << "remote_user:" << remoteuser;
-	if (remoteuser.length() > 0) {
-	  this->setRemoteUser(remoteuser);	
-	}
-
-	LOG(LS_WARNING) << "remote_user:" << remoteuser;
-
-	LOG(LS_WARNING) << "MoloClient::HandleCandidate";
-
+void MoloClient::HandleCandidate(const buzz::XmlElement* elem) {
+	LOG(LS_INFO) << "MoloClient::HandleCandidate";
+	LOG(LS_INFO) << elem->Str();
 	cricket::Candidate candidate;
 	ParseError error;
 	talk_base::SocketAddress address;

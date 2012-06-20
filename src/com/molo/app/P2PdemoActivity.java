@@ -62,6 +62,7 @@ public class P2PdemoActivity extends Activity implements OnClickListener
                 }
             }).start();
             Intent intent = new Intent();
+            intent.putExtra("name", name + "@molohui.com"); // ex. gc1@molohui.com 
             intent.setClassName(this, "com.molo.app.MainActivity");
             startActivity(intent);
         }
@@ -121,8 +122,6 @@ public class P2PdemoActivity extends Activity implements OnClickListener
         }
         return super.onOptionsItemSelected(item);
     }
-    
-    
     
     @Override
     public void onBackPressed()

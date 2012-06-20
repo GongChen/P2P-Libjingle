@@ -214,10 +214,10 @@ JNIEXPORT jboolean JNICALL Java_com_molo_app_NativeMethod_doLogin
 	talk_base::InsecureCryptStringImpl pass;          
 	//get string from java         
 	
-	const char *str = env->GetStringUTFChars(name, NULL);
+	const char *str = "gc2";//env->GetStringUTFChars(name, NULL);
 	      
 	__android_log_print(ANDROID_LOG_WARN, "P2P", "c_username is  = %s", str);
-	const char *pass_str = env->GetStringUTFChars(password, NULL);
+	const char *pass_str = "123456";//env->GetStringUTFChars(password, NULL);
    	__android_log_print(ANDROID_LOG_WARN, "P2P", "c_password is  = %s", pass_str); 
 
 	jid = buzz::Jid(str);            
@@ -288,15 +288,11 @@ JNIEXPORT jboolean JNICALL Java_com_molo_app_NativeMethod_createChannel
 	//get string from java
 	// c_name =  jstringTostring(env, name);     
 	// c_remote_name =  jstringTostring(env, remoteName); 
-      
-      const char *username = env->GetStringUTFChars(name,NULL);
-      
-      const char *str = env->GetStringUTFChars(remoteName, NULL);
 	
 	__android_log_print(ANDROID_LOG_WARN, "P2P", "createChannel::client is  = %u", client);
     if(client)
 	{
-	  	client->CreateP2P(username,str);	 
+	  	client->CreateP2P("");	 
 	} 
 	
 	return false;
@@ -334,7 +330,7 @@ JNIEXPORT jboolean JNICALL Java_com_molo_app_NativeMethod_quit
 }  
     
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *ajvm, void *reserved){     
-    LOGD("JNI_OnLoad startup~~!");
+    LOGD("JNI_OnLoad startup~~!");     
     return JNI_VERSION_1_4;     
 }  
 

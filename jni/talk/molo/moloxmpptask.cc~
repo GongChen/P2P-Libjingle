@@ -47,7 +47,7 @@ bool MoloXmppTask::HandleStanza(const buzz::XmlElement* stanza) {
 			return false;
 		}
 		LOG(LS_INFO) << "got a Candidate request. \n";
-		SignalHandleCandidate(stanza);
+		SignalHandleCandidate(cand_elem);
 		return true;
 }
 
